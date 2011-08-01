@@ -1,0 +1,56 @@
+body {
+	font-family: verdana, arial;	
+	margin: 0px;
+	background-color: #111;
+	color: #eef;
+}
+
+hr {
+	border: 0px;
+	border-top: 1px solid #eef;
+	margin: 0px 0px 10px 0px;
+}
+
+img {
+	margin: 0px;
+	padding: 0px;
+}
+
+#main div.multiview_cam {
+	display: inline-block;
+}
+
+form#options {
+	padding: 10px;
+}
+
+div.multiview_cam {
+	padding: 0px;
+	margin: 0px;
+	vertical-align: top;
+	background-color: #111;	
+}
+
+div.multiview_title {
+	padding: 0px;
+	margin: 0px;
+}
+
+.multiview_title > p {
+	padding: 0px 0.4em 0px 0.4em;
+	margin: 0px;
+	color: #eee;
+}
+.multiview_title > p.title_stats {
+	float: right;
+}
+
+div.cam_data {
+	padding: 0px;
+	margin: 0px;
+}
+
+div.multiview_cam_data {
+	padding: 0px;
+	margin: 0px;
+}

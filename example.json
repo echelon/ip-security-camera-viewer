@@ -1,0 +1,85 @@
+{
+	"cameras": [
+		{
+			"name": "",
+			"type": null,
+			"vendor": "EarthCam",
+			"location": "Columbus, Georgia, US",
+			"local-host": null,
+			"remote-host": "images.earthcam.com",
+			"image": "/ecnetwork/civilwar.jpg",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": null,
+			"vendor": "NetCam",
+			"location": "Helen, Georgia, US",
+			"local-host": null,
+			"remote-host": "helenwebcam.remotecam.com",
+			"image": "/image.jpg",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": "215 PTZ",
+			"vendor": "Axis",
+			"location": "Savannah, Georgia, US",
+			"local-host": null,
+			"remote-host": "173.12.209.42",
+			"image": "/jpg/image.jpg",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": "BB-HCM100 v 1.30",
+			"vendor": "Panasonic",
+			"location": "Hakodate, Hokkaido, Japan",
+			"local-host": null,
+			"remote-host": "camera.hakodate.or.jp",
+			"image": "/nphMotionJpeg?Resolution=320x240&Quality=Clarity",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": "M12",
+			"vendor": "MOBOTIX",
+			"location": "Yingge Xiang, Shangxi, China",
+			"local-host": null,
+			"remote-host": "221.131.34.46:8081",
+			"image": "/cgi-bin/image.jpg?size=320x240",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": "M12",
+			"vendor": "MOBOTIX",
+			"location": "Guangchang, China",
+			"local-host": null,
+			"remote-host": "222.223.28.150:1357",
+			"image": "/cgi-bin/image.jpg?size=320x240",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": "WebView Livescope VB-C50i",
+			"vendor": "Canon",
+			"location": "Erimo, Hokkaido, Japan",
+			"local-host": null,
+			"remote-host": "61.115.73.77",
+			"image": "/-wvhttp-01-/GetStillImage?vc_host=localhost&REQUEST_ID=1171679961921",
+			"mjpeg": null
+		},
+		{
+			"name": "",
+			"type": "IP PTZ",
+			"vendor": "Panasonic",
+			"location": "Kannai, Hokkaido, Japan",
+			"local-host": null,
+			"remote-host": "kpcwebkamerasekinai359.plala.jp",
+			"image": "/SnapshotJPEG?Resolution=320x240&Quality=Low",
+			"mjpeg": null
+		}
+
+	]
+}

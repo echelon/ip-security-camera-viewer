@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Camera View</title>
+		<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+
+		<script type="text/javascript" src="./lib/jquery.js"></script>
+		<script type="text/javascript" src="./lib/jquery-ui.js"></script>
+		<script type="text/javascript" src="./lib/jquery.tmpl.js"></script>
+
+		<script type="text/javascript" src="./controller.js"></script>
+		<script type="text/javascript" src="./model/camera.js"></script>
+		<script type="text/javascript" src="./model/queue.js"></script>
+		<script type="text/javascript" src="./model/data.js"></script>
+
+		<link type="text/css" rel="stylesheet" href="./style.css" />
+		<!--<link type="text/css" rel="stylesheet" href="./mobile.css" media="handheld" /> -->
+
+		<link rel="icon" href="./favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+
+		<script type="text/javascript">
+			controller = null;
+			function init() 
+			{
+				controller = new Controller();
+			};
+
+			$(document).ready(function() { init(); });
+
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form id="options">
+				Per row:
+				<select name="perRow">
+					<option value="1">1 cam</option>
+					<option value="2" selected="selected">2 cams</option>
+					<option value="3">3 cams</option>
+					<option value="4">4 cams</option>
+					<option value="5">5 cams</option>
+				</select>
+
+				Load over: 
+				<input type="radio" name="server" value="remote" 
+					checked="checked" /> Internet 
+				<input type="radio" name="server" value="local" /> LAN 
+			</form>
+			<hr />
+			<!-- Main: This is where the active GUI elements will show up. -->
+			<div id="main"></div>
+		</div>
+
+		<!-- jQuery Template -->
+		<script id="multiviewTemplate" type="text/x-jquery-tmpl">
+			<div id="multiview_cam_${id}" class="multiview_cam">
+				<img width="640" height="480" src="${camDefaultImage}">
+				<div class="cam_data"></div>
+			</div>
+		</script>
+
+		<!-- jQuery Template -->
+		<script id="multiviewTitleTemplate">
+			<div id="multiview_title_${id}" class="multiview_title">
+				<p class="title_stats">
+					${timeLastLoaded}
+					/ ${fps} fps q
+					/ ${loadCount} &#8718;
+				</p>
+				<p class="name">${cameraName}</p>
+			</div>
+		</script>
+
+		<!-- jQuery Template -->
+		<script id="multiviewDataTemplate" type="text/x-jquery-tmpl">
+			<div id="multiview_cam_data_${id}" class="multiview_cam_data">
+				<!--<b>Camera:</b> ${cameraName}
+				<br />
+				<b>Successful Request:</b> ${timeLastLoadedRequested}
+				<b>Completed on:</b> ${timeLastLoaded}
+				<b>;</b>
+				<br />
+				<b>First request:</b> ${timeFirstRequested}
+				<b>Latest request:</b> ${timeLastRequested}
+				<b>;</b>
+				<br />
+				<em>
+					<b>&#916;t<sub>lastCompletion</sub></b> ${deltaTComplete} s
+					<b>&#916;t<sub>curWait</sub></b> ${deltaTWait} s
+					<b>fps<sub>avg</sub>:</b> ${fpsAvg}
+					<b>fps<sub>inst</sub>:</b> ${fpsInst}
+				</em>
+				<br />
+				<b>Requests:</b> ${requestCount}
+				<em><b>Loads:</b> ${loadCount}</em>
+				<br />
+				<b>Fails:</b> ${failCount}
+				<b>Purges:</b> ${cachePurgeCount}
+				<br />
+				<b>Queue:</b> ${queueSize} (${queuePercent}%)
+				<em><b>Throttle:</b> ${throttle} ms</em>-->
+			</div>
+		</script>
+	</body>
+</html>
