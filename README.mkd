@@ -6,8 +6,8 @@ and Firefox; should work on mobile too, though I've only tested on a
 Droid 2. 
 
 Favicon is CC BY-NC-ND 3.0, by Antialiasfactory via 
-[](http://antialiasfactory.deviantart.com/#/d27eoqq) and 
-[](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
+[[1]](http://antialiasfactory.deviantart.com/#/d27eoqq) and 
+[[2]](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
 
 TODO
 ----
