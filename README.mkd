@@ -1,2 +1,22 @@
+IP Camera Viewer
+================
 
-Favicon is CC BY-NC-ND 3.0, by [Antialiasfactory](http://antialiasfactory.deviantart.com/#/d27eoqq) via [1](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
+Displays a wall of webcams or security cameras. Works well in Chromium
+and Firefox; should work on mobile too, though I've only tested on a 
+Droid 2. 
+
+Favicon is CC BY-NC-ND 3.0, by Antialiasfactory via 
+[1](http://antialiasfactory.deviantart.com/#/d27eoqq) and 
+[2](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
+
+TODO
+----
+
+* Single-camera view. 
+* Eliminate all javascript memory leaks.
+* Fetch images with a more sophisticated queuing strategy. Needs
+  to be more efficient for low-bandwidth, high latency connections. 
+* UI tweaks, themes. (Light theme, dark theme, better fonts/UX.)
+* Overlay data directly onto images with canvas.
+* Camera groups.
+
