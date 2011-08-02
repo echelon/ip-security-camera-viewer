@@ -1,5 +1,6 @@
 /**
- * TODO: Rename this.
+ * TODO: Merge back into camera. Problem was views and controller were
+ * conflated. 
  */
 
 function Data()

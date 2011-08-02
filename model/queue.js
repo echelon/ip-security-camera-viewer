@@ -37,7 +37,6 @@ function RequestQueue()
 
 			// Update image.
 			that.stats.image.src = url;
-			that.camera.updateMultiviewImage();
 
 			that.stats.dateLastLoaded = time;
 			that.stats.dateLastLoaded_requestDate = requestDate;
@@ -45,27 +44,30 @@ function RequestQueue()
 				that.stats.dateFirstLoaded = time;
 			}
 
-			that.camera.updateMultiviewStats();
+			// TODO: Ugly call
+			that.camera.controller.view.updateCameraView(that.camera);
 		}
 
 		// Fail Cb
 		var onFail = function() {
 			that.stats.dateLastFailed = (new Date()).getTime();
 			that.stats.failCount++;
-			that.camera.updateMultiviewStats();
+			// TODO: Ugly call. 
+			that.camera.controller.view.updateCameraView(that.camera);
 		}
 
 		// Abort Cb
 		var onAbort = function() {
 			that.stats.dateLastAborted = (new Date()).getTime();
 			that.stats.abortCount++;
-			that.camera.updateMultiviewStats();
+			// TODO: Ugly call. 
+			that.camera.controller.view.updateCameraView(that.camera);
 		}
 
 		// If queue is full, make room. 
 		while(this.queue.length >= this.maxLength) {
 			var data = this.queue.shift();
-			data.image.src = "";
+			data.image.src = null;
 		}
 
 		// Perform request
@@ -86,7 +88,8 @@ function RequestQueue()
 			this.stats.dateFirstRequested = now;
 		}
 
-		this.camera.updateMultiviewStats();
+		// TODO: Ugly call
+		this.camera.controller.view.updateCameraView(that.camera);
 	}
 
 	/**

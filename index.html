@@ -2,9 +2,11 @@
 <html>
 	<head>
 		<title>Camera View</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<!-- TODO: Validate encoding -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 		<!-- Caching -->
+		<!-- TODO: Remove/not necessary -->
 		<meta http-equiv="Expires" content="Mon, Jan 1 2001 08:00:00 GMT">
 		<meta http-equiv="Pragma" content="no-cache">
 		<meta http-equiv="Cache-Control" 
@@ -22,6 +24,7 @@
 		<script type="text/javascript" src="./lib/jquery.js"></script>
 		<script type="text/javascript" src="./lib/jquery.tmpl.js"></script>
 
+		<script type="text/javascript" src="./view.js"></script>
 		<script type="text/javascript" src="./controller.js"></script>
 		<script type="text/javascript" src="./model/camera.js"></script>
 		<script type="text/javascript" src="./model/queue.js"></script>
@@ -65,6 +68,7 @@
 			<hr />
 			<!-- Main: This is where the active GUI elements will show up. -->
 			<div id="main"></div>
+			<div id="single"></div>
 		</div>
 
 		<!-- jQuery Template -->
@@ -88,33 +92,10 @@
 		</script>
 
 		<!-- jQuery Template -->
-		<script id="multiviewDataTemplate" type="text/x-jquery-tmpl">
-			<div id="multiview_cam_data_${id}" class="multiview_cam_data">
-				<!--<b>Camera:</b> ${cameraName}
-				<br />
-				<b>Successful Request:</b> ${timeLastLoadedRequested}
-				<b>Completed on:</b> ${timeLastLoaded}
-				<b>;</b>
-				<br />
-				<b>First request:</b> ${timeFirstRequested}
-				<b>Latest request:</b> ${timeLastRequested}
-				<b>;</b>
-				<br />
-				<em>
-					<b>&#916;t<sub>lastCompletion</sub></b> ${deltaTComplete} s
-					<b>&#916;t<sub>curWait</sub></b> ${deltaTWait} s
-					<b>fps<sub>avg</sub>:</b> ${fpsAvg}
-					<b>fps<sub>inst</sub>:</b> ${fpsInst}
-				</em>
-				<br />
-				<b>Requests:</b> ${requestCount}
-				<em><b>Loads:</b> ${loadCount}</em>
-				<br />
-				<b>Fails:</b> ${failCount}
-				<b>Purges:</b> ${cachePurgeCount}
-				<br />
-				<b>Queue:</b> ${queueSize} (${queuePercent}%)
-				<em><b>Throttle:</b> ${throttle} ms</em>-->
+		<script id="singleviewTemplate">
+			<div id="singleview_cam_${id}" class="singleview_cam">
+				<img width="640" height="480" src="${camDefaultImage}">
+				<div class="cam_data"></div>
 			</div>
 		</script>
 	</body>

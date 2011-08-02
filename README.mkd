@@ -9,14 +9,19 @@ Favicon is CC BY-NC-ND 3.0, by Antialiasfactory via
 [[1]](http://antialiasfactory.deviantart.com/#/d27eoqq) and 
 [[2]](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
 
-TODO
-----
+Future work
+-----------
 
-* Single-camera view. 
 * Eliminate all javascript memory leaks.
 * Fetch images with a more sophisticated queuing strategy. Needs
   to be more efficient for low-bandwidth, high latency connections. 
-* UI tweaks, themes. (Light theme, dark theme, better fonts/UX.)
+* Use cookies to rememeber option state
+* Single camera "next" and "previous" camera links.
+* Short interval FPS measure (keep a few historical data points)
+* Stop endless loading icon. 
 * Overlay data directly onto images with canvas.
+* Fade or visual indication of stalled camera feed.
 * Camera groups.
+* UI tweaks, themes. (Light theme, dark theme, better fonts and UX.)
+
 

@@ -9,9 +9,9 @@ function Controller()
 {
 	var that = this;
 
+	// Objects
+	this.view = new View(this);
 	this.cameras = [];
-
-	this.numPerRow = 2; // Images per row. TODO: Move elsewhere.
 	
 	var initialize = function()
 	{
@@ -20,16 +20,18 @@ function Controller()
 		{
 			for(var i in json.cameras) {
 				var cam = new Camera(json.cameras[i]);
+				cam.controller = that; // TODO: Not good. 
 				that.cameras.push(cam);
 			}
 			// Intitialize view and begin requesting. 
-			that.viewAll();
+			that.view.initCameraDom();
+			that.sizeWindow();
 			that.mainLoop();
 		}
 
 		// Load camera data. 
-		$.getJSON('./cameras.json', processJson);
-		//$.getJSON('./example.json', processJson);
+		//$.getJSON('./cameras.json', processJson);
+		$.getJSON('./example.json', processJson);
 		
 		// Install callbacks. 
 		$('#options').change(function(){ that.changeOptions(); });
@@ -79,82 +81,16 @@ function Controller()
 	}
 
 	/**
-	 * View: Show all cameras.
-	 */
-	this.viewAll = function()
-	{
-		var that = this;
-		var defaultImage = './img/unavailable.png';
-
-		// If SVG support, use SVG default image.
-		if(document.implementation.hasFeature(
-			"http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")) {
-				defaultImage = './img/unavailable.svg';
-		}
-
-		for(var i = 0; i < this.cameras.length; i++)
-		{
-			var cam = this.cameras[i];
-			var data;
-			var tpl1;
-			var tpl2;
-			var tpl3;
-			var item;
-			
-			data = cam.stats;
-			data['id'] = i;
-			data['camDefaultImage'] = defaultImage;
-
-			tpl1 = $('#multiviewTemplate').tmpl(data);
-			tpl1.appendTo('#main');
-
-			tpl2 = $('#multiviewDataTemplate').tmpl(data);
-			tpl2.appendTo('#multiview_cam_' + i + ' .cam_data');
-
-			tpl3 = $('#multiviewTitleTemplate').tmpl(data);
-			tpl3.prependTo('#multiview_cam_' + i);
-
-			domSelector1 = "#main #multiview_cam_" + i;
-			domSelector2 = "#main #multiview_cam_data_" + i;
-			domSelector3 = "#main #multiview_title_" + i;
-			cam.setMultiviewSelector(domSelector1, domSelector2, domSelector3);
-		}
-
-		this.sizeWindow();
-	}
-
-	/**
-	 * View: Show a single camera. (TODO)
-	 */
-	this.viewCamera = function(id) 
-	{
-		if(id < 0 || id >= this.cameras.length) {
-			return;
-		}
-		/*
-		// Pause all other cameras.
-		for(var i = 0; i < cameras.length; i++) {
-			cameras[i]->setPause(true);
-		}
-		cameras[id]->setPause(false);
-		*/
-	};
-
-	/**
 	 * TODO: Fix doc
 	 * Update the source of the images: remote (internet) or local (lan).
 	 * Togged by a radio form on the page. 
 	 */
 	this.changeOptions = function()
 	{
-		var val = $('#options input:checked').attr('value');
-		var local = (val == 'local')? true : false;
-
-		/*if(!(val in {'local':1, 'remote':1})) {
-			return;
-		}*/
+		var local;
 
 		// Set cameras as local or remote. 
+		local = (this.view.getOptionServer() == 'local')? true : false;
 		for(var i = 0; i < this.cameras.length; i++) {
 			if(local) {
 				this.cameras[i].url.setLocal();
@@ -165,10 +101,10 @@ function Controller()
 		}
 
 		// Change row width. 
-		val = $('#options option:selected').attr('value');
-		this.numPerRow = parseInt(val);
+		this.view.multiviewImagesPerRow = this.view.getOptionRowWidth();
 
-		// Adjust twice.
+		// Adjust images to window width.  
+		// XXX: Do twice to ensure it sets. (Sometimes glitches out.)
 		this.sizeWindow();
 		this.sizeWindow();
 	}
@@ -180,7 +116,7 @@ function Controller()
 	this.sizeWindow = function()
 	{
 		var width = $(window).width();
-		var NUM = this.numPerRow;
+		var NUM = this.view.multiviewImagesPerRow;
 		var newImgWidth = Math.floor(width/NUM);
 		var newImgHeight = Math.floor(newImgWidth/640 * 480);
 
@@ -193,8 +129,9 @@ function Controller()
 		$('img').each(resize);
 		$('.multiview_cam').width(newImgWidth);
 
-		//$('div.cam_data').width(newImgWidth);
-
+		// Resize singleview images.
+		//$('.singleview_cam').width(width);
+		//$('.singleview_cam img').width(width);
 	}
 }
 

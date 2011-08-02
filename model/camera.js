@@ -82,6 +82,12 @@ function Camera(json)
 {
 	var that = this;
 
+	// Id, assigned externally.
+	var id = -1;
+
+	// Object refs (TODO: No good.)
+	var controller;
+
 	// Name, etc.
 	this.name = "";
 	this.location = "";
@@ -104,12 +110,6 @@ function Camera(json)
 	// HTML entities
 	this.image = new Image();
 
-	// jQuery templates
-	this.multiviewSelector = null;
-	this.multiviewDataSelector = null;
-	this.multiviewTitleSelector = null;
-	this.focusviewTemplate = null;
-
 	// XXX ///////////////////////////////////////
 	this.queue = new RequestQueue();
 	this.stats = new Data();
@@ -123,13 +123,6 @@ function Camera(json)
 		this.vendor = json['vendor'];
 		this.location = json['location'];
 		this.name = json['name'];
-	};
-
-	this.setMultiviewSelector = function(selector, selector2, selector3)
-	{
-		this.multiviewSelector = selector;
-		this.multiviewDataSelector = selector2;
-		this.multiviewTitleSelector = selector3;
 	};
 
 	/**
@@ -154,59 +147,9 @@ function Camera(json)
 		this.isPaused = !this.isPaused;
 	}
 
-	// TODO: This functionality doesn't belong here
-	this.updateMultiviewImage = function()
-	{
-		var dom = $(this.multiviewSelector);
-		var img = dom.find('img');
-		img.attr('src', this.stats.image.src);
-	}
-
 	this.updateMultiviewTitle = function()
 	{
-		var node = $(this.multiviewTitleSelector);
-		var tpl = null;
-
-		if(node.length == 0) {
-			return;
 		}
-
-		var getTime = function(time) 
-		{
-			var d = new Date(time);
-			var s = "";
-
-			if(!time) {
-				return " &mdash; ";
-			}
-
-			s += d.getHours()? d.getHours() : "00";
-			s += ":"; 
-			s += (d.getMinutes() < 10)? "0" + d.getMinutes() : d.getMinutes(); 
-			//s += ":"; 
-			//s += (d.getSeconds() < 10)? "0" + d.getSeconds() : d.getSeconds();
-			//s += '.';
-			//s += d.getMilliseconds();
-
-			delete d;
-			return s;
-		}
-
-
-		tpl = node.tmplItem();
-		tpl.data['cameraName'] = this.location;
-		tpl.data['timeLastLoaded'] = getTime(this.stats.dateLastLoaded);
-		tpl.data['loadCount'] = this.stats.loadCount;
-		var percent = this.queue? this.queue.percentFull()*100 : 0;
-		tpl.data['queuePercent'] = percent.toFixed(1);
-
-		var fps = ((new Date()).getTime() - 
-				this.stats.dateFirstRequested) / 1000;
-		tpl.data['fps'] = (this.stats.loadCount / fps).toFixed(3);
-
-
-		tpl.update();
-	}
 
 	// TODO: This functionality doesn't belong here
 	// TODO: It *really* doesn't belong here. 
