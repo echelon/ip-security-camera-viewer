@@ -1,8 +1,9 @@
 body {
 	font-family: verdana, arial;	
+	font-size: 1em;
 	margin: 0px;
 	background-color: #111;
-	color: #eef;
+	color: #cfcfff;
 }
 
 hr {
@@ -14,6 +15,11 @@ hr {
 img {
 	margin: 0px;
 	padding: 0px;
+}
+
+select, option {
+	background-color: #777;
+	color: #000;
 }
 
 #main div.multiview_cam {
@@ -34,16 +40,33 @@ div.multiview_cam {
 div.multiview_title {
 	padding: 0px;
 	margin: 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .multiview_title > p {
-	padding: 0px 0.4em 0px 0.4em;
+	padding: 0px;
 	margin: 0px;
 	color: #eee;
 }
-.multiview_title > p.title_stats {
+
+.multiview_title span.title_stats {
+	text-align: right;
 	float: right;
+	width: 60%;
 }
+
+.multiview_title span.title_name {
+	color: #99c;
+	float: left;
+	text-align: left;
+	width: 40%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
 
 div.cam_data {
 	padding: 0px;

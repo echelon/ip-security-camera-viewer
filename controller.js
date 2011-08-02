@@ -10,6 +10,8 @@ function Controller()
 	var that = this;
 
 	this.cameras = [];
+
+	this.numPerRow = 2; // Images per row. TODO: Move elsewhere.
 	
 	var initialize = function()
 	{
@@ -30,7 +32,7 @@ function Controller()
 		//$.getJSON('./example.json', processJson);
 		
 		// Install callbacks. 
-		$('#options').change(function(){ that.updateSource(); });
+		$('#options').change(function(){ that.changeOptions(); });
 		$(window).resize(function() { that.sizeWindow(); });
 	}
 
@@ -139,18 +141,20 @@ function Controller()
 	};
 
 	/**
+	 * TODO: Fix doc
 	 * Update the source of the images: remote (internet) or local (lan).
 	 * Togged by a radio form on the page. 
 	 */
-	this.updateSource = function()
+	this.changeOptions = function()
 	{
 		var val = $('#options input:checked').attr('value');
 		var local = (val == 'local')? true : false;
 
-		if(!(val in {'local':1, 'remote':1})) {
+		/*if(!(val in {'local':1, 'remote':1})) {
 			return;
-		}
+		}*/
 
+		// Set cameras as local or remote. 
 		for(var i = 0; i < this.cameras.length; i++) {
 			if(local) {
 				this.cameras[i].url.setLocal();
@@ -159,6 +163,14 @@ function Controller()
 				this.cameras[i].url.setRemote();
 			}
 		}
+
+		// Change row width. 
+		val = $('#options option:selected').attr('value');
+		this.numPerRow = parseInt(val);
+
+		// Adjust twice.
+		this.sizeWindow();
+		this.sizeWindow();
 	}
 
 	/**
@@ -168,7 +180,7 @@ function Controller()
 	this.sizeWindow = function()
 	{
 		var width = $(window).width();
-		var NUM = 2;
+		var NUM = this.numPerRow;
 		var newImgWidth = Math.floor(width/NUM);
 		var newImgHeight = Math.floor(newImgWidth/640 * 480);
 
@@ -177,14 +189,12 @@ function Controller()
 			this.height = newImgHeight;
 		}
 
+		// Resize image and outer div. 
 		$('img').each(resize);
-		/*function(){
-			this.width = newImgWidth;
-			this.height = newImgHeight;
-		});*/
+		$('.multiview_cam').width(newImgWidth);
 
-		$('div.cam_data').width(newImgWidth);
-		$('div.title').width(newImgWidth);
+		//$('div.cam_data').width(newImgWidth);
+
 	}
 }
 

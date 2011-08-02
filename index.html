@@ -2,10 +2,24 @@
 <html>
 	<head>
 		<title>Camera View</title>
-		<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+		<!-- Caching -->
+		<meta http-equiv="Expires" content="Mon, Jan 1 2001 08:00:00 GMT">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" 
+			content="no-store, no-cache, must-revalidate">
+
+		<!-- Handheld -->
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="viewport" 
+			content="width=device-width, height=device-height, 
+			user-scalable=no, target-densitydpi=high-dpi" />
+
+		<!-- Robots -->
+		<meta name="robots" content="noindex, nofollow" />
 
 		<script type="text/javascript" src="./lib/jquery.js"></script>
-		<script type="text/javascript" src="./lib/jquery-ui.js"></script>
 		<script type="text/javascript" src="./lib/jquery.tmpl.js"></script>
 
 		<script type="text/javascript" src="./controller.js"></script>
@@ -14,7 +28,8 @@
 		<script type="text/javascript" src="./model/data.js"></script>
 
 		<link type="text/css" rel="stylesheet" href="./style.css" />
-		<!--<link type="text/css" rel="stylesheet" href="./mobile.css" media="handheld" /> -->
+		<link type="text/css" rel="stylesheet" href="./mobile.css" 
+			media="handheld" />
 
 		<link rel="icon" href="./favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
@@ -63,12 +78,12 @@
 		<!-- jQuery Template -->
 		<script id="multiviewTitleTemplate">
 			<div id="multiview_title_${id}" class="multiview_title">
-				<p class="title_stats">
+				<span class="title_name">${cameraName}</span>
+				<span class="title_stats">
 					${timeLastLoaded}
-					/ ${fps} fps q
+					/ ${fps} fps
 					/ ${loadCount} &#8718;
-				</p>
-				<p class="name">${cameraName}</p>
+				</span>
 			</div>
 		</script>
 

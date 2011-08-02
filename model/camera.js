@@ -177,7 +177,7 @@ function Camera(json)
 			var s = "";
 
 			if(!time) {
-				return "not loaded";
+				return " &mdash; ";
 			}
 
 			s += d.getHours()? d.getHours() : "00";
