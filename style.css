@@ -12,6 +12,11 @@ hr {
 	margin: 0px 0px 10px 0px;
 }
 
+dfn {
+	font-style: normal;
+	border-bottom: 1px dotted #cfcfff;
+}
+
 img {
 	margin: 0px;
 	padding: 0px;
