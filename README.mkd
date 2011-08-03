@@ -12,16 +12,19 @@ Favicon is CC BY-NC-ND 3.0, by Antialiasfactory via
 Future work
 -----------
 
+**Critical**
 * Eliminate all javascript memory leaks.
 * Fetch images with a more sophisticated queuing strategy. Needs
   to be more efficient for low-bandwidth, high latency connections. 
-* Use cookies to rememeber option state
-* Single camera "next" and "previous" camera links.
+* Strange issues on mobile webkit browser that prevent images from 
+  loading. (Works fine in Firefox mobile.)
+* Font sizes on firefox, firefox mobile.
+
+**Usability, etc.**
 * Short interval FPS measure (keep a few historical data points)
-* Stop endless loading icon. 
+* Use cookies to rememeber option state
+* Single camera UI improvements; "next" and "previous" camera links.
 * Overlay data directly onto images with canvas.
 * Fade or visual indication of stalled camera feed.
 * Camera groups.
-* UI tweaks, themes. (Light theme, dark theme, better fonts and UX.)
-
 
