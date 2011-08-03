@@ -108,22 +108,30 @@ function Camera(json)
  */
 function CameraUrl(json)
 {
-	// IP Camera Location
+	// IP Camera Location -- FULL URL
+	// Used when there is no camera configurability and no choice in server
+	this.fullUrl = null; 
+
+	// IP Camera Location -- BROKEN IN COMPONENTS
+	// Used when we can switch camera options or use an alternate server
 	this.remoteHost = "";  // Over Internet
 	this.localHost = "";   // Local network (if available)
 	this.currentHost = ""; // The host we're using now.
 	this.imagePath = "";
 	this.videoPath = "";
-
-	// TODO: Support for camera quality, etc. params.
-	this.params = null;
+	this.params = null; // TODO: Support for camera quality, etc. params.
 
 	if(json) {
-		this.remoteHost = json['remote-host'];
-		this.localHost = json['local-host'];
-		this.imagePath = json['image'];
-		this.videoPath = json['video'];
-		this.params = json['image-params'];
+		if("full-url" in json) {
+			this.fullUrl = json['full-url'];
+		}
+		else {
+			this.remoteHost = json['remote-host'];
+			this.localHost = json['local-host'];
+			this.imagePath = json['image'];
+			this.videoPath = json['video'];
+			this.params = json['image-params'];
+		}
 
 		// Default to using remote host if both are specified. 
 		this.currentHost = this.remoteHost ? this.remoteHost : this.localHost;
@@ -138,11 +146,23 @@ function CameraUrl(json)
 		var timestamp;
 		var url;
 
-		url = "http://" + this.currentHost + this.imagePath;
+		if(this.fullUrl) {
+			url = this.fullUrl;
+		}
+		else {
+			url = "http://" + this.currentHost + this.imagePath;
+		}
 
 		// Build query string
 		timestamp = new Date().getTime().toString();
-		url += "?t=" + timestamp;
+
+		// FIXME: Ensure proper query string is built.
+		if(url.search("/\\?/") == -1) {
+			url += "?t=" + timestamp; 
+		}
+		else {
+			url += "&t=" + timestamp;
+		}
 
 		// FIXME: proper quality, size parameter handling.
 		// This is just to support Linksys cameras. Won't work elsewhere.

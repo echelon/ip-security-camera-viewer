@@ -22,9 +22,17 @@ img {
 	padding: 0px;
 }
 
+a {
+	color: #aaf;
+}
+
 select, option {
 	background-color: #777;
 	color: #000;
+}
+
+#footer p {
+	padding: 0em 1em;
 }
 
 #main div.multiview_cam {

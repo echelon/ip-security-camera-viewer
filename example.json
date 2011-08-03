@@ -1,7 +1,30 @@
 {
 	"cameras": [
 		{
-			"name": "",
+			"name": "Joint Astronomy Centre",
+			"location": "Mauna Kea, Hawaii, US",
+			"full-url": "http://www.jach.hawaii.edu/weather/images/ukirt360px.jpg"
+		},
+		{
+			"name": "Joint Astronomy Centre",
+			"location": "Mauna Kea, Hawaii, US",
+			"full-url": "http://www.jach.hawaii.edu/weather/images/jcmtdome360px.jpg"
+		},
+		{
+			"name": "CFH Telescope",
+			"location": "Kamuela, Hawaii, US",
+			"full-url": "http://www.cfht.hawaii.edu/webcams/cfhtdome/cfhtdome.jpg"
+		},
+		{
+			"location": "San Francisco, California, US",
+			"full-url": "http://webmarin.com/images/wc/Camera.jpg"
+		},
+		{
+			"name": "Space Needle",
+			"location": "Seattle, Washington, US",
+			"full-url": "http://www.pscleanair.org/airq/visibility/seattleqa/webcam-2011080312.jpg"
+		},
+		{
 			"type": null,
 			"vendor": "EarthCam",
 			"location": "Columbus, Georgia, US",
@@ -11,7 +34,6 @@
 			"mjpeg": null
 		},
 		{
-			"name": "",
 			"type": null,
 			"vendor": "NetCam",
 			"location": "Helen, Georgia, US",
@@ -21,7 +43,6 @@
 			"mjpeg": null
 		},
 		{
-			"name": "",
 			"type": "215 PTZ",
 			"vendor": "Axis",
 			"location": "Savannah, Georgia, US",
@@ -31,17 +52,22 @@
 			"mjpeg": null
 		},
 		{
-			"name": "",
-			"type": "BB-HCM100 v 1.30",
-			"vendor": "Panasonic",
-			"location": "Hakodate, Hokkaido, Japan",
-			"local-host": null,
-			"remote-host": "camera.hakodate.or.jp",
-			"image": "/nphMotionJpeg?Resolution=320x240&Quality=Clarity",
-			"mjpeg": null
+			"name": "8 Avenue @ 42 Street",
+			"location": "NYC, New York, US",
+			"full-url": "http://207.251.86.248/cctv20.jpg?math=0.03237327025271952"
 		},
 		{
-			"name": "",
+			"location": "Queens, New York, US",
+			"full-url": "http://www.cafe52.com:8081/big"
+		},
+		{
+			"name": "Skyline",
+			"type": "",
+			"vendor": "",
+			"location": "Madrid, Spain",
+			"full-url": "http://www.avendano.org/cam.jpg"
+		},
+		{
 			"type": "M12",
 			"vendor": "MOBOTIX",
 			"location": "Yingge Xiang, Shangxi, China",
@@ -51,7 +77,6 @@
 			"mjpeg": null
 		},
 		{
-			"name": "",
 			"type": "M12",
 			"vendor": "MOBOTIX",
 			"location": "Guangchang, China",
@@ -61,7 +86,41 @@
 			"mjpeg": null
 		},
 		{
-			"name": "",
+			"vendor": "Panasonic",
+			"type": "BB-HCM581 3.20R00",
+			"location": "Tokyo Bay, Japan",
+			"full-url": "http://hollywood-webcam-a.miemasu.net:52368/SnapshotJPEG?Quality=Low",
+			"mjpeg-full-url": "http://hollywood-webcam-a.miemasu.net:52368/nphMotionJpeg?Resolution=640x480&Quality=Motion"
+		},
+		{
+			"type": "",
+			"vendor": "",
+			"location": "Tokyo Tower, Japan",
+			"full-url": "http://newbiz.saxa.co.jp/images/stories/tokyotower/tokyotower.jpg"
+		},
+
+		{
+			"type": "",
+			"vendor": "",
+			"location": "Shinjuku, Japan",
+			"full-url": "http://59.146.77.13/SnapshotJPEG?Resolution=640x480&Quality=Clarity&View=Normal"
+		},
+		{
+			"type": "",
+			"vendor": "",
+			"location": "Shinjuku, Japan",
+			"full-url": "http://c74id1i.corede.net/SnapshotJPEG?Resolution=640x480&Quality=Motion&View=Normal"
+		},
+		{
+			"vendor": "Panasonic",
+			"type": "BB-HCM100 v 1.30",
+			"location": "Hakodate, Hokkaido, Japan",
+			"local-host": null,
+			"remote-host": "camera.hakodate.or.jp",
+			"image": "/SnapshotJPEG?Resolution=640x480&Quality=Low",
+			"mjpeg": "/nphMotionJpeg?Resolution=320x240&Quality=Clarity"
+		},
+		{
 			"type": "WebView Livescope VB-C50i",
 			"vendor": "Canon",
 			"location": "Erimo, Hokkaido, Japan",
@@ -71,7 +130,6 @@
 			"mjpeg": null
 		},
 		{
-			"name": "",
 			"type": "IP PTZ",
 			"vendor": "Panasonic",
 			"location": "Kannai, Hokkaido, Japan",
