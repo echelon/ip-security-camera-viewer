@@ -9,10 +9,13 @@ Favicon is CC BY-NC-ND 3.0, by Antialiasfactory via
 [[1]](http://antialiasfactory.deviantart.com/#/d27eoqq) and 
 [[2]](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
 
-Screenshots
------------
+Screenshots and demo
+--------------------
 ![Multi-camera view](http://i.imgur.com/CnhSqm.jpg)
 ![Single camera view](http://i.imgur.com/WZJixm.jpg)
+
+Here's a [demo version](http://possibilistic.org/ipcam/), possibly out of
+date with the current master branch.
 
 Future work
 -----------
