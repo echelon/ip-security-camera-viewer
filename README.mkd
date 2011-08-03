@@ -9,18 +9,27 @@ Favicon is CC BY-NC-ND 3.0, by Antialiasfactory via
 [[1]](http://antialiasfactory.deviantart.com/#/d27eoqq) and 
 [[2]](http://www.freeiconsdownload.com/Free_Downloads.asp?id=1000).
 
+Screenshots
+-----------
+![Multi-camera view](http://i.imgur.com/CnhSqm.jpg)
+![Single camera view](http://i.imgur.com/WZJixm.jpg)
+
 Future work
 -----------
 
 **Critical**
+
 * Eliminate all javascript memory leaks.
+* Webkit mobile: very strange issues that prevent images from loading,
+  counters from updating, etc. Stems from onload event firing before 
+  image downloads are complete, despite the fact that the callback is
+  set prior to the download request. (Works fine in Firefox mobile)
 * Fetch images with a more sophisticated queuing strategy. Needs
   to be more efficient for low-bandwidth, high latency connections. 
-* Strange issues on mobile webkit browser that prevent images from 
-  loading. (Works fine in Firefox mobile.)
-* Font sizes on firefox, firefox mobile.
+* Firefox mobile: Font sizes, overflow, ellipsis, etc. (minor UI fixes)
 
 **Usability, etc.**
+
 * Short interval FPS measure (keep a few historical data points)
 * Use cookies to rememeber option state
 * Single camera UI improvements; "next" and "previous" camera links.
