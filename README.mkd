@@ -27,6 +27,7 @@ Future work
   counters from updating, etc. Stems from onload event firing before 
   image downloads are complete, despite the fact that the callback is
   set prior to the download request. (Works fine in Firefox mobile)
+  Grep for [android-webkit-bug]
 * Fetch images with a more sophisticated queuing strategy. Needs
   to be more efficient for low-bandwidth, high latency connections. 
 * Firefox mobile: Font sizes, overflow, ellipsis, etc. (minor UI fixes)

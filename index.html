@@ -2,11 +2,9 @@
 <html>
 	<head>
 		<title>Camera View</title>
-		<!-- TODO: Validate encoding -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-		<!-- Caching -->
-		<!-- TODO: Remove/not necessary -->
+		<!-- Do not cache -->
 		<meta http-equiv="Expires" content="Mon, Jan 1 2001 08:00:00 GMT">
 		<meta http-equiv="Pragma" content="no-cache">
 		<meta http-equiv="Cache-Control" 
@@ -23,12 +21,10 @@
 
 		<script type="text/javascript" src="./lib/jquery.js"></script>
 		<script type="text/javascript" src="./lib/jquery.tmpl.js"></script>
-
 		<script type="text/javascript" src="./view.js"></script>
 		<script type="text/javascript" src="./controller.js"></script>
-		<script type="text/javascript" src="./model/camera.js"></script>
-		<script type="text/javascript" src="./model/queue.js"></script>
-		<script type="text/javascript" src="./model/data.js"></script>
+		<script type="text/javascript" src="./camera.js"></script>
+		<script type="text/javascript" src="./queue.js"></script>
 
 		<link type="text/css" rel="stylesheet" href="./style.css" />
 		<link type="text/css" rel="stylesheet" href="./mobile.css" 
@@ -80,19 +76,19 @@
 		</script>
 
 		<!-- jQuery Template -->
-		<script id="multiviewTitleTemplate">
+		<script id="multiviewTitleTemplate" type="text/x-jquery-tmpl">
 			<div id="multiview_title_${id}" class="multiview_title">
 				<span class="title_name">${cameraName}</span>
 				<span class="title_stats">
 					${timeLastLoaded}
 					/ ${fps} fps
-					/ ${loadCount} &diams;
+					/ ${counts.load} &diams;
 				</span>
 			</div>
 		</script>
 
 		<!-- jQuery Template -->
-		<script id="singleviewTemplate">
+		<script id="singleviewTemplate" type="text/x-jquery-tmpl">
 			<div id="singleview_cam_${id}" class="singleview_cam">
 				<img width="640" height="480" src="${camDefaultImage}">
 				<div class="cam_stats"></div>
@@ -100,7 +96,7 @@
 		</script>
 
 		<!-- jQuery Template -->
-		<script id="singleviewStatsTemplate">
+		<script id="singleviewStatsTemplate" type="text/x-jquery-tmpl">
 			<div id="singleview_stats_${id}" class="singleview_stats">
 				<p><strong>Current Frame:</strong></p>
 				<ul>
@@ -120,11 +116,11 @@
 				<hr/>
 				<p><strong>Counters:</strong></p>
 				<ul>
-					<li>Request: ${requestCount}</li>
-					<li><em>Load:</em> ${loadCount}</li>
-					<li>Purge: ${cachePurgeCount}</li>
-					<li>Fail: ${failCount}</li>
-					<li>Abort: ${abortCount}</li>
+					<li>Request: ${counts.request}</li>
+					<li><em>Load:</em> ${counts.load}</li>
+					<li>Purge: ${counts.cachePurge}</li>
+					<li>Fail: ${counts.fail}</li>
+					<li>Abort: ${counts.abort}</li>
 				</ul>
 			</div>
 		</script>

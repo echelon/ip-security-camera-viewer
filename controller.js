@@ -1,9 +1,12 @@
-
 /**
- * Controller:
- *  - Initial setup
- *  - Control the main loop.
- *  - Switch between views.
+ * Controller class
+ *
+ * Responsible for: 
+ *  - Initial setup and configuration
+ *  - The main loop (fetching/processing images)
+ *  - Handling user input, switch between views
+ *
+ * TODO: Move all traces of DOM access to view.js. 
  */
 function Controller()
 {
@@ -20,7 +23,8 @@ function Controller()
 		{
 			for(var i in json.cameras) {
 				var cam = new Camera(json.cameras[i]);
-				cam.controller = that; // TODO: Not good. 
+				cam.id = i;
+				cam.controller = that; // FIXME: Doesn't need controller!
 				that.cameras.push(cam);
 			}
 			// Intitialize view and begin requesting. 
@@ -30,8 +34,8 @@ function Controller()
 		}
 
 		// Load camera data. 
-		$.getJSON('./cameras.json', processJson);
-		//$.getJSON('./example.json', processJson);
+		//$.getJSON('./mycameras.json', processJson);
+		$.getJSON('./example.json', processJson);
 		
 		// Install callbacks. 
 		$('#options').change(function(){ that.changeOptions(); });
@@ -42,6 +46,8 @@ function Controller()
 
 	/**
 	 * Main loop controls image loading, etc.
+	 * FIXME: Should be private or toggleable/only callable once. 
+	 * XXX: Only called once, by constructor!
 	 */
 	this.mainLoop = function()
 	{
@@ -69,8 +75,8 @@ function Controller()
 			}
 
 			// Throttle requests by the size of the queue. 
-			cam.stats.throttle = Math.round(7000 * cam.queue.percentFull());
-			if(cam.queue.newest() + cam.stats.throttle > now) {
+			cam.throttle = Math.round(7000 * cam.queue.percentFull());
+			if(cam.queue.newest() + cam.throttle > now) {
 				continue;
 			}
 
@@ -81,9 +87,11 @@ function Controller()
 	}
 
 	/**
-	 * TODO: Fix doc
-	 * Update the source of the images: remote (internet) or local (lan).
-	 * Togged by a radio form on the page. 
+	 * Update state to match user preference. (A callback)
+	 * 
+	 * User toggles options on form, and this callback updates all 
+	 * parameters: (1) source of the images as either remote/internet or
+	 * local/lan, (2) number or images displayed per row in the UI.
 	 */
 	this.changeOptions = function()
 	{
@@ -111,8 +119,7 @@ function Controller()
 
 	/**
 	 * Resize the image blocks to fit the window. Fits multiple images 
-	 * per row, as configured. 
-	 * TODO: Belongs in view.
+	 * per row, as configured. (TODO: Belongs in view.)
 	 */
 	this.sizeWindow = function()
 	{
@@ -132,8 +139,6 @@ function Controller()
 		$('.multiview_cam').width(newImgWidth);
 
 		// Resize singleview images.
-		//$('.singleview_cam').width(width);
-		//$('.singleview_cam img').width(width);
 		var SINGLE_SCALE = 0.60;
 		$('.singleview_cam img').width(Math.floor(width * SINGLE_SCALE));
 		$('.singleview_cam img').height(

@@ -9,7 +9,6 @@ function RequestQueue()
 	this.maxLength = 4;
 
 	// References to other objects.
-	this.stats = null;
 	this.camera = null;
 
 	/**
@@ -28,48 +27,48 @@ function RequestQueue()
 		{
 			var time = (new Date()).getTime();
 
-			that.stats.loadCount++;
+			that.camera.counts.load++;
 
 			// Don't update image if it's older than the current one.
-			if(that.stats.dateLastLoaded_requestDate >= requestDate) {
+			if(that.camera.times.lastLoaded_requestDate >= requestDate) {
 				return;
 			}
 
 			// Update image.
-			that.stats.image.src = url;
+			that.camera.curFrame.src = url;
 
-			// XXX: Testing...
+			// TODO/FIXME [android-webkit-bug]
 			// XXX: Stupid Android Webkit (only) bug?
 			// onLoad() fires, but image is not complete!
-			if(!that.stats.image.complete) {
+			if(!that.camera.curFrame.complete) {
 				console.log('Image load incomplete: ' + url);
-				that.stats.loadCount--;
+				that.camera.counts.load--;
 				return;
 			}
 
-			that.stats.dateLastLoaded = time;
-			that.stats.dateLastLoaded_requestDate = requestDate;
-			if(!that.stats.dateFirstLoaded) {
-				that.stats.dateFirstLoaded = time;
+			that.camera.times.lastLoaded = time;
+			that.camera.times.lastLoaded_requestDate = requestDate;
+			if(!that.camera.times.firstLoaded) {
+				that.camera.times.firstLoaded = time;
 			}
 
-			// TODO: Ugly call
+			// FIXME: Ugly call
 			that.camera.controller.view.updateCameraView(that.camera);
 		}
 
 		// Fail Cb
 		var onFail = function() {
-			that.stats.dateLastFailed = (new Date()).getTime();
-			that.stats.failCount++;
-			// TODO: Ugly call. 
+			that.camera.times.lastFailed = (new Date()).getTime();
+			that.camera.counts.fail++;
+			// FIXME: Ugly call. 
 			that.camera.controller.view.updateCameraView(that.camera);
 		}
 
 		// Abort Cb
 		var onAbort = function() {
-			that.stats.dateLastAborted = (new Date()).getTime();
-			that.stats.abortCount++;
-			// TODO: Ugly call. 
+			that.camera.times.lastAborted = (new Date()).getTime();
+			that.camera.counts.abort++;
+			// FIXME: Ugly call. 
 			that.camera.controller.view.updateCameraView(that.camera);
 		}
 
@@ -91,13 +90,13 @@ function RequestQueue()
 
 		this.queue.push(entry);
 
-		this.stats.requestCount++;
-		this.stats.dateLastRequested = now;
-		if(!this.stats.dateFirstRequested) {
-			this.stats.dateFirstRequested = now;
+		this.camera.counts.request++;
+		this.camera.times.lastRequested = now;
+		if(!this.camera.times.firstRequested) {
+			this.camera.times.firstRequested = now;
 		}
 
-		// TODO: Ugly call
+		// FIXME: Ugly call
 		this.camera.controller.view.updateCameraView(that.camera);
 	}
 
@@ -149,7 +148,7 @@ function RequestQueue()
 		var obj = null;
 
 		for(var i = 0; i < this.queue.length; i++) {
-			if(this.queue[i].date > this.stats.dateLastLoaded_requestDate) {
+			if(this.queue[i].date > this.camera.times.lastLoaded_requestDate) {
 				break;
 			}
 			found++;
@@ -159,7 +158,7 @@ function RequestQueue()
 			return;
 		}
 
-		this.stats.cachePurgeCount += found-1;
+		this.camera.counts.cachePurge += found-1;
 
 		while(found > 0) {
 			obj = this.queue.shift();

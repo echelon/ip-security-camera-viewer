@@ -1,6 +1,7 @@
-
 /**
- * Represents the page view.
+ * View class
+ * Manipulates the page DOM under instructions from the Controller.
+ * Responsible for initial setup and DOM state changes.
  */
 function View(controller)
 {
@@ -27,7 +28,7 @@ function View(controller)
 		var that = this;
 		var defaultImage = './img/unavailable.png';
 
-		// Load cameras. (TODO: Poor form)
+		// Load cameras. (FIXME: Poor form)
 		this.cameras = this.controller.cameras;
 
 		// If SVG support, use SVG default image.
@@ -36,7 +37,8 @@ function View(controller)
 				defaultImage = './img/unavailable.svg';
 		}
 
-		// Mobile firefox doesn't resize SVG correctly. (FIXME: Nasty fix.)
+		// Mobile firefox doesn't resize SVG correctly.
+		// FIXME: Pathetic fix. 
 		if(navigator.userAgent.search('Mozilla.*Android') > -1) {
 			defaultImage = './img/unavailable.png';
 		}
@@ -55,15 +57,14 @@ function View(controller)
 			var cam = this.cameras[i];
 			var camSelector = this.MULTIVIEW_IMAGE_SELECTOR + i;
 			var singleSelector = this.SINGLEVIEW_IMAGE_SELECTOR + i;
-			var data;
+			var data = {};
 			var tpl;
 			var item;
-		
-			// FIXME: Assign camera id during load.
-			cam.id = i;
-
-			// FIXME: this isn't right...
-			data = cam.stats;
+	
+			// Lazy copy the camera keys. 
+			for(var k in cam) {
+				data[k] = cam[k];
+			}
 			data['id'] = i;
 			data['camDefaultImage'] = defaultImage;
 
@@ -97,6 +98,7 @@ function View(controller)
 	 * Callback used by a refreshing camera after the latest frame
 	 * loads in order to update its image, statistics, etc.
 	 * Input: Camera object. 
+	 * FIXME: Terrible, unorganized mess. 
 	 */
 	this.updateCameraView = function(cam)
 	{
@@ -128,49 +130,45 @@ function View(controller)
 		}
 
 		// Update image
-		if(cam.stats.image.src) {
-			$(mSelector + ' img').attr('src', cam.stats.image.src);
-			$(sSelector + ' img').attr('src', cam.stats.image.src);
-		}
-		else {
+		if(cam.curFrame.src) {
+			$(mSelector + ' img').attr('src', cam.curFrame.src);
+			$(sSelector + ' img').attr('src', cam.curFrame.src);
 		}
 
 		// Update image titlebar (name, a few stats, ...)
 		node = $(this.MULTIVIEW_TITLE_SELECTOR + cam.id);
 
-		/*if(node.length == 0) {
-			return;
-		}*/
-
 		tpl = node.tmplItem();
 		tpl.data['cameraName'] = cam.location;
-		tpl.data['timeLastLoaded'] = getTime(cam.stats.dateLastLoaded);
-		tpl.data['loadCount'] = cam.stats.loadCount;
+		tpl.data['timeLastLoaded'] = getTime(cam.times.lastLoaded);
 		var percent = cam.queue? cam.queue.percentFull()*100 : 0;
 		tpl.data['queuePercent'] = percent.toFixed(1);
 
 		var fps = ((new Date()).getTime() - 
-				cam.stats.dateFirstRequested) / 1000;
-		tpl.data['fps'] = (cam.stats.loadCount / fps).toFixed(3);
+				cam.times.firstRequested) / 1000;
+		tpl.data['fps'] = (cam.counts.load / fps).toFixed(3);
 		tpl.update();
-
 
 		// Update singleview stats
 		node = $(this.SINGLEVIEW_STATS_SELECTOR + cam.id);
 
 		tpl = node.tmplItem();
-		for(var k in cam.stats) {
-			tpl.data[k] = cam.stats[k];
+
+		// Lazy copy dictionary
+		for(var k in cam) {
+			tpl.data[k] = cam[k];
 		}
+
+		// TODO: Report queue stats, FPS, delta times, etc. Also include title.
 		tpl.data['timeFirstRequested'] = 
-			getTime(cam.stats.dateFirstRequested, 1);
-		tpl.data['timeFirstLoaded'] = getTime(cam.stats.dateFirstLoaded, 1);
-		tpl.data['timeLastRequested'] = getTime(cam.stats.dateLastRequested, 1);
+			getTime(cam.times.firstRequested, 1);
+		tpl.data['timeFirstLoaded'] = getTime(cam.times.firstLoaded, 1);
+		tpl.data['timeLastRequested'] = getTime(cam.times.lastRequested, 1);
 		tpl.data['timeLastLoadedRequested'] = 
-			getTime(cam.stats.dateLastLoaded_requestDate, 1);
-		tpl.data['timeLastLoaded'] = getTime(cam.stats.dateLastLoaded, 1);
-		tpl.data['timeLastFailed'] = getTime(cam.stats.dateLastFailed, 1);
-		tpl.data['timeLastAborted'] = getTime(cam.stats.dateLastAborted, 1);
+			getTime(cam.times.lastLoaded_requestDate, 1);
+		tpl.data['timeLastLoaded'] = getTime(cam.times.lastLoaded, 1);
+		tpl.data['timeLastFailed'] = getTime(cam.times.lastFailed, 1);
+		tpl.data['timeLastAborted'] = getTime(cam.times.lastAborted, 1);
 		tpl.update();
 
 		// XXX: calling update() on templates overwrites sizeWindow(), 
