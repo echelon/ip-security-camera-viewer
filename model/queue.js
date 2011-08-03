@@ -38,6 +38,15 @@ function RequestQueue()
 			// Update image.
 			that.stats.image.src = url;
 
+			// XXX: Testing...
+			// XXX: Stupid Android Webkit (only) bug?
+			// onLoad() fires, but image is not complete!
+			if(!that.stats.image.complete) {
+				console.log('Image load incomplete: ' + url);
+				that.stats.loadCount--;
+				return;
+			}
+
 			that.stats.dateLastLoaded = time;
 			that.stats.dateLastLoaded_requestDate = requestDate;
 			if(!that.stats.dateFirstLoaded) {

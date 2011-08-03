@@ -95,8 +95,39 @@
 		<script id="singleviewTemplate">
 			<div id="singleview_cam_${id}" class="singleview_cam">
 				<img width="640" height="480" src="${camDefaultImage}">
-				<div class="cam_data"></div>
+				<div class="cam_stats"></div>
 			</div>
 		</script>
+
+		<!-- jQuery Template -->
+		<script id="singleviewStatsTemplate">
+			<div id="singleview_stats_${id}" class="singleview_stats">
+				<p><strong>Current Frame:</strong></p>
+				<ul>
+					<li><em>Requested on</em>: 
+						${timeLastLoadedRequested}</li>
+					<li><em>Loaded on:</em> ${timeLastLoaded}</li>
+				</ul>
+				<hr/>
+				<p><strong>Initial, Recent, and Error:</strong></p>
+				<ul>
+					<li>First Requested: ${timeFirstRequested}</li>
+					<li>First Loaded: ${timeFirstLoaded}</li>
+					<li>Last Requested: ${timeLastRequested}</li>
+					<li>Last Failed: ${timeLastFailed}</li>
+					<li>Last Aborted: ${timeLastAborted}</li>
+				</ul>
+				<hr/>
+				<p><strong>Counters:</strong></p>
+				<ul>
+					<li>Request: ${requestCount}</li>
+					<li><em>Load:</em> ${loadCount}</li>
+					<li>Purge: ${cachePurgeCount}</li>
+					<li>Fail: ${failCount}</li>
+					<li>Abort: ${abortCount}</li>
+				</ul>
+			</div>
+		</script>
+
 	</body>
 </html>

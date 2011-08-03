@@ -30,8 +30,8 @@ function Controller()
 		}
 
 		// Load camera data. 
-		//$.getJSON('./cameras.json', processJson);
-		$.getJSON('./example.json', processJson);
+		$.getJSON('./cameras.json', processJson);
+		//$.getJSON('./example.json', processJson);
 		
 		// Install callbacks. 
 		$('#options').change(function(){ that.changeOptions(); });
@@ -110,12 +110,14 @@ function Controller()
 	}
 
 	/**
-	 * Resize the image blocks to fit the window.
-	 * Fits multiple images per row, as configured. 
+	 * Resize the image blocks to fit the window. Fits multiple images 
+	 * per row, as configured. 
+	 * TODO: Belongs in view.
 	 */
 	this.sizeWindow = function()
 	{
 		var width = $(window).width();
+		var height = $(window).height();
 		var NUM = this.view.multiviewImagesPerRow;
 		var newImgWidth = Math.floor(width/NUM);
 		var newImgHeight = Math.floor(newImgWidth/640 * 480);
@@ -132,6 +134,13 @@ function Controller()
 		// Resize singleview images.
 		//$('.singleview_cam').width(width);
 		//$('.singleview_cam img').width(width);
+		var SINGLE_SCALE = 0.60;
+		$('.singleview_cam img').width(Math.floor(width * SINGLE_SCALE));
+		$('.singleview_cam img').height(
+				Math.floor((width * SINGLE_SCALE)/640 * 480));
+
+		$('div.singleview_stats').width(
+				Math.floor(width * (1.0 - SINGLE_SCALE)));
 	}
 }
 

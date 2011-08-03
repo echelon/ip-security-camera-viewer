@@ -77,3 +77,21 @@ div.multiview_cam_data {
 	padding: 0px;
 	margin: 0px;
 }
+
+.singleview_stats {
+	float: right;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
+.singleview_stats p {
+	padding: 0px 1em 0.6em 1em;
+	margin: 0px;
+}
+
+/* Prevent label wrapping. */
+.singleview_stats em { white-space: nowrap; }
+
+.singleview_stats hr { margin: 0.2em 1.3em 0.6em 1.3em; }
+.singleview_stats ul { margin-top: 0px; padding-top: 0px; }
