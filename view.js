@@ -5,6 +5,9 @@
  */
 function View(controller)
 {
+	// Canvases
+	this.canvases = [];
+
 	// Object references.
 	this.controller = typeof(controller) != 'undefined' ? controller : null;
 	this.cameras = typeof(controller) != 'undefined'? controller.cameras : [];
@@ -60,6 +63,7 @@ function View(controller)
 			var data = {};
 			var tpl;
 			var item;
+			var canvas;
 	
 			// Lazy copy the camera keys. 
 			for(var k in cam) {
@@ -86,6 +90,12 @@ function View(controller)
 			tpl.prependTo(singleSelector);
 			tpl.hide();
 
+			// Create singleview canvas.
+			canvas = new CameraCanvas(camSelector + ' canvas');
+			canvas.camera = cam;
+			canvas.defaultImage = temp;
+			this.canvases.push(canvas);
+
 			// Install callbacks.
 			$(".singleview_cam").click(function(){ that.multiview(); });
 			$(camSelector).mousedown((function(cam) {
@@ -109,6 +119,14 @@ function View(controller)
 		}
 	}
 
+	// XXX: TEMPORARY FIXME
+	this.resizeCanvases = function(width, height)
+	{
+		for(var i = 0; i < this.canvases.length; i++) {
+			this.canvases[i].resize(width, height);
+		}
+	}
+
 	/**
 	 * Callback used by a refreshing camera after the latest frame
 	 * loads in order to update its image, statistics, etc.
@@ -121,6 +139,7 @@ function View(controller)
 		var tpl;
 		var mSelector = this.MULTIVIEW_IMAGE_SELECTOR + cam.id;
 		var sSelector = this.SINGLEVIEW_IMAGE_SELECTOR + cam.id;
+		var canvas = this.canvases[cam.id]; // FIXME: Bad way to reference
 
 		// Title formatted times. 
 		var getTime = function(time, seconds) 
@@ -144,10 +163,21 @@ function View(controller)
 			return s;
 		}
 
-		// Update image
+		// Update fallback image
 		if(cam.curFrame.src) {
 			$(mSelector + ' img').attr('src', cam.curFrame.src);
 			$(sSelector + ' img').attr('src', cam.curFrame.src);
+		}
+
+		// Update canvas
+		// TODO: Check for canvas support: if(canvas.getContext) {...}
+		if(cam.curFrame.src) {
+			canvas.draw();
+			/*var canvas = $(mSelector + ' canvas')[0];
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "rgb(200,0,0)";
+			ctx.fillRect(0, 0, 600, 450);*/
+
 		}
 
 		// Update image titlebar (name, a few stats, ...)

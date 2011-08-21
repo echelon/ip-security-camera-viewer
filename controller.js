@@ -34,8 +34,8 @@ function Controller()
 		}
 
 		// Load camera data. 
-		//$.getJSON('./mycameras.json', processJson);
-		$.getJSON('./example.json', processJson);
+		$.getJSON('./mycameras.json', processJson);
+		//$.getJSON('./example.json', processJson);
 		
 		// Install callbacks. 
 		$('#options').change(function(){ that.changeOptions(); });
@@ -134,9 +134,13 @@ function Controller()
 			this.height = newImgHeight;
 		}
 
-		// Resize image and outer div. 
+		// Resize multiview image and outer div. 
 		$('img').each(resize);
 		$('.multiview_cam').width(newImgWidth);
+
+		// Resize multiview canvas
+		// TODO/FIXME: TEMPORARY
+		this.view.resizeCanvases(newImgWidth, newImgHeight);
 
 		// Resize singleview images.
 		var SINGLE_SCALE = 0.60;

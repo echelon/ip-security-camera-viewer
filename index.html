@@ -25,6 +25,7 @@
 		<script type="text/javascript" src="./view.js"></script>
 		<script type="text/javascript" src="./controller.js"></script>
 		<script type="text/javascript" src="./camera.js"></script>
+		<script type="text/javascript" src="./canvas.js"></script>
 		<script type="text/javascript" src="./queue.js"></script>
 
 		<link type="text/css" rel="stylesheet" href="./style.css" />
@@ -81,7 +82,9 @@
 		<!-- jQuery Template -->
 		<script id="multiviewTemplate" type="text/x-jquery-tmpl">
 			<div id="multiview_cam_${id}" class="multiview_cam">
-				<img width="640" height="480" src="${camDefaultImage}">
+				<canvas width="640" height="480">
+					<img width="640" height="480" src="${camDefaultImage}">
+				</canvas>
 				<div class="cam_data"></div>
 			</div>
 		</script>
