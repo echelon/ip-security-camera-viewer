@@ -88,9 +88,24 @@ function View(controller)
 
 			// Install callbacks.
 			$(".singleview_cam").click(function(){ that.multiview(); });
-			$(camSelector).click((function(cam) {
-				return function() { that.singleview(cam); };
+			$(camSelector).mousedown((function(cam) {
+				return function(ev) { that.clickMultiviewCam(cam, ev); };
 			})(cam));
+	
+			// Disable right click menu on multiview camera images
+			$(camSelector).bind('contextmenu', function(){ return false; });
+		}
+	}
+
+	this.clickMultiviewCam = function(cam, ev)
+	{
+		switch(ev.which) {
+			case 1: // Right click
+				this.singleview(cam);
+				break;
+			case 3: // Left click
+				cam.togglePause();
+				break;
 		}
 	}
 
