@@ -33,7 +33,8 @@ function CameraCanvas(selector)
 
 	this.resize = function(width, height)
 	{
-		// Changing size forces redraw, so don't set unless size changed	
+		// Setting size forces a reset of canvas state, so don't set
+		// unless the size has actually changed
 		if(this._width != width || this._height != height) 
 		{
 			this._width = width;
@@ -99,7 +100,12 @@ function CameraCanvas(selector)
 
 		try {
 			if(doClear) {
+				// Save transformation matrix stack, use the identity 
+				// matrix transform to clear, then restore.  
+				ctx.save();
+				ctx.setTransform(1, 0, 0, 1, 0, 0);
 				ctx.clearRect(0, 0, this._width, this._height);
+				ctx.restore();
 			}
 			ctx.drawImage(source, 0, 0, this._width, this._height);
 		}
