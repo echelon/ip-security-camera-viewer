@@ -29,7 +29,7 @@ function Controller()
 			}
 			// Intitialize view and begin requesting. 
 			that.view.initCameraDom();
-			that.sizeWindow();
+			that.view.sizeWindow();
 			that.mainLoop();
 		}
 
@@ -38,8 +38,9 @@ function Controller()
 		//$.getJSON('./example.json', processJson);
 		
 		// Install callbacks. 
-		$('#options').change(function(){ that.changeOptions(); });
-		$(window).resize(function() { that.sizeWindow(); });
+		$(that.view.OPTIONS_SELECTOR).change(function(){ 
+			that.changeOptions(); });
+		$(window).resize(function() { that.resizeWindowCb(); });
 	}
 
 	initialize();
@@ -113,50 +114,48 @@ function Controller()
 
 		// Adjust images to window width.  
 		// XXX: Do twice to ensure it sets. (Sometimes glitches out.)
-		this.sizeWindow();
-		this.sizeWindow();
+		this.view.sizeWindow();
+		this.view.sizeWindow();
 	}
 
 	/**
-	 * Resize the image blocks to fit the window. Fits multiple images 
-	 * per row, as configured. (TODO: Belongs in view.)
+	 * Callback to switch view mode to singleview or to pause camera.
 	 */
-	this.sizeWindow = function()
+	this.clickMultiviewCam = function(cam, ev)
 	{
-		var width = $(window).width();
-		var height = $(window).height();
-		var NUM = this.view.multiviewImagesPerRow;
-		var newImgWidth = Math.floor(width/NUM);
-		var newImgHeight = Math.floor(newImgWidth/640 * 480);
-
-		var resize = function() {
-			this.width = newImgWidth;
-			this.height = newImgHeight;
+		switch(ev.which) {
+			case 1: // Right click
+				this.view.singleview(cam);
+				break;
+			case 3: // Left click
+				cam.togglePause();
+				break;
 		}
+	}
 
-		// Resize multiview image and outer div. 
-		$('img').each(resize);
-		$('.multiview_cam').width(newImgWidth);
+	/**
+	 * Callback to switch view mode to multiview.
+	 * Must supply camera in callback installation.
+	 */
+	this.clickSingleviewCam = function(cam, ev)
+	{
+		switch(ev.which) {
+			case 1: // Right click
+				this.view.multiview();
+				break;
+			case 3: // Left click
+				cam.togglePause();
+				break;
+		}
+	}
 
-		// Resize multiview canvas
-		// TODO/FIXME: TEMPORARY
-		this.view.resizeCanvases(newImgWidth, newImgHeight);
-
-		// Resize singleview images.
-		var SINGLE_SCALE = 0.60;
-		$('.singleview_cam img').width(Math.floor(width * SINGLE_SCALE));
-		$('.singleview_cam img').height(
-				Math.floor((width * SINGLE_SCALE)/640 * 480));
-
-		$('div.singleview_stats').width(
-				Math.floor(width * (1.0 - SINGLE_SCALE)));
+	/**
+	 * Window was resized (callback). 
+	 * Pass the information along to view.
+	 */
+	this.resizeWindow = function()
+	{
+		this.view.sizeWindow($(window).width(), $(window).height());
 	}
 }
 
-/**
- * For debugging.
- */
-function print(text)
-{
-	$('#main').prepend('<h1>' + text + '</h1>');
-}

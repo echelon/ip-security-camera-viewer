@@ -21,6 +21,9 @@ function View(controller)
 	this.SINGLEVIEW_IMAGE_SELECTOR = '#main #singleview_cam_';
 	this.SINGLEVIEW_STATS_SELECTOR = '#main #singleview_stats_';
 
+	// Absolute selectors.
+	this.OPTIONS_SELECTOR = '#options';
+
 	/**
 	 * Setup the DOM for the cameras.
 	 * Necessary to perform once camera JSON is loaded, and once again
@@ -95,35 +98,22 @@ function View(controller)
 			canvas.camera = cam;
 			canvas.defaultImage = temp;
 			this.canvases.push(canvas);
-
-			// Install callbacks.
-			$(".singleview_cam").click(function(){ that.multiview(); });
-			$(camSelector).mousedown((function(cam) {
-				return function(ev) { that.clickMultiviewCam(cam, ev); };
-			})(cam));
 	
 			// Disable right click menu on multiview camera images
 			$(camSelector).bind('contextmenu', function(){ return false; });
-		}
-	}
+			$(".singleview_cam").bind('contextmenu', function(){ 
+				return false; });
 
-	this.clickMultiviewCam = function(cam, ev)
-	{
-		switch(ev.which) {
-			case 1: // Right click
-				this.singleview(cam);
-				break;
-			case 3: // Left click
-				cam.togglePause();
-				break;
-		}
-	}
+			// Install callbacks.
+			$(".singleview_cam").mousedown((function(cam) {
+				return function(ev) { 
+					that.controller.clickSingleviewCam(cam, ev); };
+			})(cam));
 
-	// XXX: TEMPORARY FIXME
-	this.resizeCanvases = function(width, height)
-	{
-		for(var i = 0; i < this.canvases.length; i++) {
-			this.canvases[i].resize(width, height);
+			$(camSelector).mousedown((function(cam) {
+				return function(ev) { 
+					that.controller.clickMultiviewCam(cam, ev); };
+			})(cam));
 		}
 	}
 
@@ -218,7 +208,7 @@ function View(controller)
 
 		// XXX: calling update() on templates overwrites sizeWindow(), 
 		// so we must call it again to maintain proper sizing. 
-		this.controller.sizeWindow();
+		this.sizeWindow();
 	}
 
 	/**
@@ -235,13 +225,14 @@ function View(controller)
 		}
 
 		// Heuristic fix for UI 'glitching' out (incorrect col size)
-		this.controller.sizeWindow();
+		this.sizeWindow();
 	}
 
 	/**
 	 * Switch to the single camera view.
 	 * Input: Camera object of the camera we wish to display. 
 	 */
+	// TODO: Stats, including: URL, queue size, wait time, etc.
 	this.singleview = function(cam)
 	{
 		var select = this.SINGLEVIEW_IMAGE_SELECTOR + cam.id;
@@ -258,7 +249,47 @@ function View(controller)
 		}
 
 		// Heuristic fix for UI 'glitching' out (incorrect col size)
-		this.controller.sizeWindow();
+		this.sizeWindow();
+	}
+
+	/**
+	 * Resize the image blocks to fit the window. Fits multiple images 
+	 * per row, as configured.
+	 */
+	this.sizeWindow = function(width, height)
+	{
+		var NUM, newImgWidth, newImgHeight, resize;
+
+		// If called without params, get current window dimensions
+		width = (typeof(width) != 'undefined')? width : $(window).width();
+		height = (typeof(height) != 'undefined')? height : $(window).height();
+
+		NUM = this.multiviewImagesPerRow;
+		newImgWidth = Math.floor(width/NUM);
+		newImgHeight = Math.floor(newImgWidth/640 * 480);
+
+		resize = function() {
+			this.width = newImgWidth;
+			this.height = newImgHeight;
+		}
+
+		// Resize multiview image and outer div. 
+		$('img').each(resize);
+		$('.multiview_cam').width(newImgWidth);
+
+		// Resize multiview canvas
+		for(var i = 0; i < this.canvases.length; i++) {
+			this.canvases[i].resize(newImgWidth, newImgHeight);
+		}
+
+		// Resize singleview images.
+		var SINGLE_SCALE = 0.60;
+		$('.singleview_cam img').width(Math.floor(width * SINGLE_SCALE));
+		$('.singleview_cam img').height(
+				Math.floor((width * SINGLE_SCALE)/640 * 480));
+
+		$('div.singleview_stats').width(
+				Math.floor(width * (1.0 - SINGLE_SCALE)));
 	}
 
 	/**
@@ -278,4 +309,12 @@ function View(controller)
 		var val = $('#options input:checked').attr('value');
 		return (val == 'local')? 'local' : 'remote';
 	}
+}
+
+/**
+ * For debugging.
+ */
+function print(text)
+{
+	$('#main').prepend('<h1>' + text + '</h1>');
 }
