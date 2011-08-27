@@ -34,6 +34,7 @@ Future work
 
 **Usability, etc.**
 
+* When browser width is relatively large, show more images per row.
 * Short interval FPS measure (keep a few historical data points)
 * Use cookies to rememeber option state
 * Single camera UI improvements; "next" and "previous" camera links.
