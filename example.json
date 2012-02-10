@@ -1,6 +1,11 @@
 {
 	"cameras": [
 		{
+			"name": "CFH Telescope",
+			"location": "Kamuela, Hawaii, US",
+			"full-url": "http://www.cfht.hawaii.edu/webcams/cfhtdome/cfhtdome.jpg"
+		},
+		{
 			"name": "Joint Astronomy Centre",
 			"location": "Mauna Kea, Hawaii, US",
 			"full-url": "http://www.jach.hawaii.edu/weather/images/ukirt360px.jpg"
@@ -11,18 +16,18 @@
 			"full-url": "http://www.jach.hawaii.edu/weather/images/jcmtdome360px.jpg"
 		},
 		{
-			"name": "CFH Telescope",
-			"location": "Kamuela, Hawaii, US",
-			"full-url": "http://www.cfht.hawaii.edu/webcams/cfhtdome/cfhtdome.jpg"
-		},
-		{
 			"location": "San Francisco, California, US",
 			"full-url": "http://webmarin.com/images/wc/Camera.jpg"
 		},
 		{
-			"name": "Space Needle",
-			"location": "Seattle, Washington, US",
-			"full-url": "http://www.pscleanair.org/airq/visibility/seattleqa/webcam-2011080312.jpg"
+			"name": "FogCam - oldest operating webcam",
+			"location": "San Francisco State University",
+			"full-url": "http://www.fogcam.org/fogcam2.jpg"
+		},
+		{
+			"name": "FishCam",
+			"location": "Sunnyvale, CA, US",
+			"full-url": "http://www.fishcam.com/liveimage_640.jpg?camera=0"
 		},
 		{
 			"type": null,
@@ -92,13 +97,6 @@
 			"full-url": "http://hollywood-webcam-a.miemasu.net:52368/SnapshotJPEG?Quality=Low",
 			"mjpeg-full-url": "http://hollywood-webcam-a.miemasu.net:52368/nphMotionJpeg?Resolution=640x480&Quality=Motion"
 		},
-		{
-			"type": "",
-			"vendor": "",
-			"location": "Tokyo Tower, Japan",
-			"full-url": "http://newbiz.saxa.co.jp/images/stories/tokyotower/tokyotower.jpg"
-		},
-
 		{
 			"type": "",
 			"vendor": "",

@@ -1,0 +1,32 @@
+#overview {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#overview table {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	border-collapse: collapse;
+}
+
+#overview tr {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#overview td {
+	border: 0px;
+	/*border: 1px solid #fff;*/
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.overview_camera img {
+	border: 0px;
+}
+
+
