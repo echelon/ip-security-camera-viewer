@@ -23,15 +23,31 @@ var Camera = Backbone.Model.extend({
 		timezone: '',
 		description: '',
 
-		// FPS may allow the camera to auto-adjust in the future.
-		fps_predefined: '',
-		fps_estimated: '',
-
 		// XXX: TEMPORARY -- I implemented these better in the old code
 		loadcount: 0,
 		failcount: 0,
 		loadtime: 0,
-		curImage: './img/unavailable.png'
+		curImage: './img/unavailable.png',
+
+		// Times various events occurred
+		t_firstRequested: null,
+		t_firstLoaded: null,
+		t_lastRequested: null,
+		t_lastLoaded: null,
+		t_lastLoaded_requestDate: null, // Request time of last loaded frame
+		t_lastFailed: null,
+		t_lastAborted: null,
+
+		// Counts of various events 
+		c_request: 0,
+		c_load: 0,
+		c_fail: 0,
+		c_abort: 0,
+		c_cachePurge: 0, // Purged from queue before loaded
+
+		// FPS may allow the camera to auto-adjust in the future.
+		fps_predefined: '',
+		fps_estimated: ''
 	},
 
 	// XXX/FIXME: 
@@ -64,6 +80,10 @@ var Camera = Backbone.Model.extend({
 		// TODO/TEMP
 		this.queue = new RequestQueue2();
 		this.queue.camera = this;
+		this.queue.cameraid = this.cid;
+
+		console.log(this.queue);
+
 
 		// FIXME: Should I declare here?
 		if(!this.view) {
@@ -72,7 +92,7 @@ var Camera = Backbone.Model.extend({
 			this.curView = this.view;
 		}
 
-		//this.bind('change', this.updateView());
+		this.bind('change', this.updateView, this);
 	},
 
 	getImageUrl: function() {
@@ -94,9 +114,8 @@ var Camera = Backbone.Model.extend({
 	},
 
 	updateView: function() {
-		// FIXME FIXME FIXME: Signal triggers an infinite loop?
-
-		this.set('curImage', this.curFrame.src); // XXX XXX XXX XXX XXX XXX
+		// XXX XXX: Be mindful of triggering infinite loops!
+		//this.set({curImage: this.curFrame.src}); // TODO TEMP OUTCOMMENT
 		this.curView.render()
 	}
 

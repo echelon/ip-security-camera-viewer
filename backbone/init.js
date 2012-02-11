@@ -6,8 +6,10 @@ var init = function()
 
 	window.app.cameras = new CameraCollection([
 		{name: 'A', 
-			fullUrl: 'http://www.cfht.hawaii.edu/' + 
-					 'webcams/cfhtdome/cfhtdome.jpg'},
+			fullUrl: 'http://kpcwebkamerasekinai359.plala.jp/' +
+					 'SnapshotJPEG?Resolution=320x240&Quality=Low'},
+			/*'http://www.cfht.hawaii.edu/' + 
+					 'webcams/cfhtdome/cfhtdome.jpg'},*/
 		{name: 'B',
 			fullUrl: 'http://173.12.209.42/jpg/image.jpg'},
 		{name: 'C',

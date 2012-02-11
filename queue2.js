@@ -15,6 +15,7 @@ function RequestQueue2()
 
 	// References to other objects.
 	this.camera = null;
+	this.cameraid = 0; // TODO TEMP
 
 	/**
 	 * Make a request to the image server.
@@ -27,45 +28,55 @@ function RequestQueue2()
 		var now = d.getTime();
 		var entry = {};
 
-		// Success Cb
+		/**
+		 * Success Callback
+		 */
 		var onLoad = function(url, requestDate)
 		{
 			var time = (new Date()).getTime();
 
-			that.camera.counts.load++;
+			var temp = new Image();
+			temp.src = url;
+			
+			// This is the object we'll be sending to our backbone Model
+			var json = that.camera.toJSON();
+
+			json.c_load++;
 
 			// Don't update image if it's older than the current one.
-			if(that.camera.times.lastLoaded_requestDate >= requestDate) {
+			if(json.c_lastLoaded_requestDate >= requestDate) {
+				that.camera.set(json);
 				return;
 			}
-
-			// Update image.
-			that.camera.curFrame.src = url;
 
 			// TODO/FIXME [android-webkit-bug]
 			// XXX: Stupid Android Webkit (only) bug?
 			// onLoad() fires, but image is not complete!
-			if(!that.camera.curFrame.complete) {
-				console.log('Image load incomplete: ' + url);
-				that.camera.counts.load--;
+			//if(!that.camera.curFrame.complete) {
+			if(!temp.complete) {
+				//console.log('Image load incomplete: ' + url);
+				json.c_load--;
+				that.camera.set(json);
 				return;
 			}
 
-			that.camera.times.lastLoaded = time;
-			that.camera.times.lastLoaded_requestDate = requestDate;
-			if(!that.camera.times.firstLoaded) {
-				that.camera.times.firstLoaded = time;
+			// Update image.
+			json.curImage = url;
+
+			json.t_lastLoaded = time;
+			json.t_lastLoaded_requestDate = requestDate;
+
+			if(!json.t_firstLoaded) {
+				json.t_firstLoaded = time;
 			}
 
-			// FIXME: There has to be a better way of doing this
-			that.camera.updateView();
+			that.camera.set(json);
 		}
 
 		// Fail Cb
 		var onFail = function() {
 			that.camera.times.lastFailed = (new Date()).getTime();
 			that.camera.counts.fail++;
-			that.camera.controller.view.updateCameraView(that.camera);
 			// FIXME: There has to be a better way of doing this
 			that.camera.updateView();
 		}

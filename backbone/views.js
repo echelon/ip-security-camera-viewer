@@ -44,9 +44,6 @@ var App = Backbone.View.extend({
 
 		// Purge old items from the queue.
 		// This only occurs when a successful hit is made. 
-		//
-		console.log(this);
-		console.log('cameras:' + this.cameras);
 		for(var i = 0; i < this.cameras.length; i++) {
 			cam = this.cameras.at(i);
 			cam.queue.purgeOld();
@@ -72,7 +69,7 @@ var App = Backbone.View.extend({
 		}
 
 		// that - prevents binding of 'this' to DomWindow
-		setTimeout(function() { that.mainLoop() }, 800);
+		setTimeout(function() { that.mainLoop() }, 800 + 9000);
 	}
 
 });
@@ -244,6 +241,9 @@ var Overview_CameraPane = Backbone.View.extend({
 	initialize: function() {
 		// Callback when image refreshes, stats refresh...
 		this.model.bind('change', this.update, this);
+
+		// Just so I have another way to reference things.
+		$(this.el).attr('id', this.cid);
 	},
 
 	// Render updates this.el's HTML.
@@ -253,10 +253,19 @@ var Overview_CameraPane = Backbone.View.extend({
 		// TODO: Keep these precompiled templates somewhere
 		var template = _.template($('#tpl_overview_camera_pane').html());
 
+		console.log(this.model.toJSON());
+
 		// Load compiled HTML into 'el'
-		$(this.el).html(template({
+		$(this.el).html(template({ /// XXX -- is this the problem? No?
+		//$('#' + this.cid).html(template({
 			name: this.model.get('name'),
-			url: this.model.get('curImage')
+			url: this.model.get('curImage'),
+			loadCount: this.model.counts.load,
+			id: this.cid,
+			modelid: this.model.cid,
+			time: (new Date()).getTime(),
+			width: 50,
+			height: 50
 		}));
 
 		return this;

@@ -64,9 +64,15 @@
 		<script type="text/template" id="tpl_overview_camera_pane">
 			<div class="overview_camera">
 				<div class="stats">
-					Name: <%= name %>
+					Name: <%= name %> <br />
+					Time: <%= time %> <br />
+					Load Count: <%= loadCount %> <br />
+					ID: <%= id %> <br />
+					Model ID: <%= modelid %>
 				</div>
-				<img src="<%= url %>" />
+				<img src="<%= url %>"
+				     width="<%= width %>" 
+					 height="<%= height %>"/>
 				<!--<img src="<%= url %>" width="160" height="120" />-->
 			</div>
 		</script>
