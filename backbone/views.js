@@ -69,7 +69,8 @@ var App = Backbone.View.extend({
 		}
 
 		// that - prevents binding of 'this' to DomWindow
-		setTimeout(function() { that.mainLoop() }, 800 + 9000);
+		//setTimeout(function() { that.mainLoop() }, 800);
+		setTimeout(function() { that.mainLoop() }, 800 + 10000);
 	}
 
 });
@@ -116,6 +117,13 @@ var Overview = Backbone.View.extend({
 
 	// Cameras per row (default)
 	cams_per_row: 3,
+
+	// Width and height 
+	// Typically these are sent directly via jQuery, but these 
+	// values are set and preserved in case the template needs 
+	// complete rerendering. 
+	width: 480,
+	height: 320,
 
 	// DOM events.
 	events: {
@@ -204,6 +212,10 @@ var Overview = Backbone.View.extend({
 		// Resize images
 		// TODO: What about other views and elements?
 		$('#overview img').each(resize);
+
+		// FIXME FIXME FIXME BAD CALL.
+		this.width = newImgWidth;
+		this.height = newImgHeight;
 	},
 
 	// Handle option changes.
@@ -236,6 +248,8 @@ var Overview_CameraPane = Backbone.View.extend({
 
 	// Cache template -- TODO: Can't do yet!
 	//template: _.template($('#tpl_overview_camera').html()),
+	
+	needsRender: true,
 
 	// TODO: CTOR
 	initialize: function() {
@@ -244,36 +258,50 @@ var Overview_CameraPane = Backbone.View.extend({
 
 		// Just so I have another way to reference things.
 		$(this.el).attr('id', this.cid);
+
+		this.needsRender = true;
 	},
 
-	// Render updates this.el's HTML.
-	// this.el attachment to the DOM is mediated by the Overview view.
+	/**
+	 * The render call updates this.el's HTML.
+	 * TODO:
+	 * There are two ways to accomplish this: (re)compilation of the 
+	 * entire DOM template, or simply resetting the values in-place.
+	 * If we used the former method exclusively, we would have 
+	 * flickering images.
+	 * 
+	 * Also: 
+	 * this.el attachment to the DOM is mediated by the Overview view.
+	 */
 	render: function(ev) {
-		// Compile template with underscore.js
-		// TODO: Keep these precompiled templates somewhere
-		var template = _.template($('#tpl_overview_camera_pane').html());
+		var json = this.model.toJSON();
 
-		console.log(this.model.toJSON());
+		if(this.needsRender) {
+			// Compile template with underscore.js
+			// TODO: Keep these precompiled templates somewhere
+			var template = _.template($('#tpl_overview_camera_pane').html());
 
-		// Load compiled HTML into 'el'
-		$(this.el).html(template({ /// XXX -- is this the problem? No?
-		//$('#' + this.cid).html(template({
-			name: this.model.get('name'),
-			url: this.model.get('curImage'),
-			loadCount: this.model.counts.load,
-			id: this.cid,
-			modelid: this.model.cid,
-			time: (new Date()).getTime(),
-			width: 50,
-			height: 50
-		}));
+			// Load compiled HTML into 'el'
+			$(this.el).html(template({
+				name:	json.name,
+				url:	json.curImage,
+				loadCt:	json.c_load,
+				width:	window.app.overview.width, // FIXME: Globals bad?
+				height:	window.app.overview.height
+			}));
+
+			this.needsRender = false;
+
+		} else {
+			$('#' + this.cid + ' img').attr('src', json.curImage);
+			$('#' + this.cid + ' .count').html('Load Count: ' +json.c_load);
+		}
 
 		return this;
 	},
 
-	// Update the view (don't recompile template, etc.)
 	update: function() {
-		// TODO
+
 	},
 
 	events: {
@@ -281,8 +309,7 @@ var Overview_CameraPane = Backbone.View.extend({
 	},
 
 	someFunction: function(ev) {
-		//alert('hi');
-		//this.$(...)
+		// TODO
 	}
 });
 

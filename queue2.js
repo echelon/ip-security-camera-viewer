@@ -27,6 +27,7 @@ function RequestQueue2()
 		var d = new Date();
 		var now = d.getTime();
 		var entry = {};
+		var json = that.camera.toJSON();
 
 		/**
 		 * Success Callback
@@ -75,18 +76,18 @@ function RequestQueue2()
 
 		// Fail Cb
 		var onFail = function() {
-			that.camera.times.lastFailed = (new Date()).getTime();
-			that.camera.counts.fail++;
-			// FIXME: There has to be a better way of doing this
-			that.camera.updateView();
+			var json = that.camera.toJSON();
+			json.t_lastFailed = (new Date()).getTime();
+			json.c_fail++;
+			that.camera.set(json);
 		}
 
 		// Abort Cb
 		var onAbort = function() {
-			that.camera.times.lastAborted = (new Date()).getTime();
-			that.camera.counts.abort++;
-			// FIXME: There has to be a better way of doing this
-			that.camera.updateView();
+			var json = that.camera.toJSON();
+			json.t_lastAborted = (new Date()).getTime();
+			json.c_abort++;
+			that.camera.set(json);
 		}
 
 		// If queue is full, make room. 
@@ -107,15 +108,15 @@ function RequestQueue2()
 
 		this.queue.push(entry);
 
-		// TODO: Set Stats -- 
-		this.camera.counts.request++;
-		this.camera.times.lastRequested = now;
-		if(!this.camera.times.firstRequested) {
-			this.camera.times.firstRequested = now;
+		// Set Stats -- 
+		json.c_request++;
+		json.t_lastRequested = now;
+
+		if(!json.t_firstRequested) {
+			json.t_firstRequested = now;
 		}
 
-		// FIXME: There has to be a better way of doing this
-		that.camera.updateView();
+		that.camera.set(json);
 	}
 
 	/**

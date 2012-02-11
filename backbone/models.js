@@ -115,8 +115,7 @@ var Camera = Backbone.Model.extend({
 
 	updateView: function() {
 		// XXX XXX: Be mindful of triggering infinite loops!
-		//this.set({curImage: this.curFrame.src}); // TODO TEMP OUTCOMMENT
-		this.curView.render()
+		this.curView.render();
 	}
 
 });
