@@ -23,10 +23,7 @@ var Camera = Backbone.Model.extend({
 		timezone: '',
 		description: '',
 
-		// XXX: TEMPORARY -- I implemented these better in the old code
-		loadcount: 0,
-		failcount: 0,
-		loadtime: 0,
+		// URL of most recent loaded image
 		curImage: './img/unavailable.png',
 
 		// Times various events occurred

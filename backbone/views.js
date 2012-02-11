@@ -294,7 +294,8 @@ var Overview_CameraPane = Backbone.View.extend({
 
 		} else {
 			$('#' + this.cid + ' img').attr('src', json.curImage);
-			$('#' + this.cid + ' .count').html('Load Count: ' +json.c_load);
+			console.log(json.c_load);
+			$('#' + this.cid + ' .count').html('Load Count: ' + json.c_load);
 		}
 
 		return this;

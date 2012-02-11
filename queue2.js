@@ -43,6 +43,8 @@ function RequestQueue2()
 			var json = that.camera.toJSON();
 
 			json.c_load++;
+			console.log('In RQ (' +  that.camera.cid + '), load: ' + 
+					json.c_load);
 
 			// Don't update image if it's older than the current one.
 			if(json.c_lastLoaded_requestDate >= requestDate) {
@@ -54,12 +56,15 @@ function RequestQueue2()
 			// XXX: Stupid Android Webkit (only) bug?
 			// onLoad() fires, but image is not complete!
 			//if(!that.camera.curFrame.complete) {
-			if(!temp.complete) {
-				//console.log('Image load incomplete: ' + url);
+			// XXX XXX XXX XXX XXX XXX: Temporary comment out.
+			// Image load count wouldn't properly load, despite the frame
+			// being new... Weird issue.
+			/*if(!temp.complete) {
+				console.log('Image load incomplete: ' + url);
 				json.c_load--;
 				that.camera.set(json);
 				return;
-			}
+			}*/
 
 			// Update image.
 			json.curImage = url;
