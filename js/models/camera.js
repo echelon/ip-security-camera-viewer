@@ -16,7 +16,7 @@
 define(function(require, exports, module) {
 
 	var RequestQueue2 = require('queue');
-	var CameraPane = require('views/overview/pane');
+	var CameraPane = require('views/overview_pane');
 
 	var Camera = Backbone.Model.extend({
 

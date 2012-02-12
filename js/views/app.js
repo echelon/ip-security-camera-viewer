@@ -2,7 +2,7 @@
 define(function(require, exports, module) {
 
 	var WindowView = require('views/window');
-	var Overview = require('views/overview/main');
+	var Overview = require('views/overview_main');
 
 	var App = Backbone.View.extend({
 
